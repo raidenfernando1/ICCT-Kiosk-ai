@@ -1,0 +1,15 @@
+.MainContainer {
+  height: 100%;
+  display: flex;
+  gap: 30px;
+}
+
+.MainContainer > :first-child {
+  width: 60%;
+  height: 100%;
+}
+
+.MainContainer > :last-child {
+  width: 40%;
+  height: 100%;
+}

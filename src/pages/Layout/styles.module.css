@@ -1,0 +1,5 @@
+.LayoutContainer {
+  margin-inline: var(--layout-inline-space);
+  padding-block: 70px;
+  height: 100dvh;
+}
