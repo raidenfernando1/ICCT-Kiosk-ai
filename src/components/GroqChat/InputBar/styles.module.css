@@ -1,0 +1,33 @@
+.InputBar {
+  width: 100%;
+  position: relative;
+}
+
+.textarea {
+  background-color: transparent;
+  border: 1px solid;
+  color: white;
+  width: 100%;
+  min-height: 40px;
+  max-height: 150px;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-y: hidden;
+  transition: height 1s ease;
+}
+
+.CTAbtns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.CTAbtns > button {
+  padding: 5px;
+}

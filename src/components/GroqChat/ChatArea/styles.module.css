@@ -1,4 +1,14 @@
 .ChatContainer {
   height: 100%;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: scroll;
+  padding-block: 10px;
+  scrollbar-width: none;
+}
+
+.Conversation {
+  padding-block: 20px;
 }
