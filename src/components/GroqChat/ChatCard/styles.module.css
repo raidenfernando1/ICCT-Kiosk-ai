@@ -3,3 +3,13 @@
   flex-direction: column;
   gap: 30px;
 }
+
+.AssistantCard {
+  padding: 5px;
+}
+
+.UserCard {
+  padding: 5px;
+  background-color: rgb(50, 50, 50);
+  border-radius: 5px;
+}

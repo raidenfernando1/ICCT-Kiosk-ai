@@ -26,8 +26,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .CTAbtns > button {
   padding: 5px;
+  background-color: rgb(50, 50, 50);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
 }
