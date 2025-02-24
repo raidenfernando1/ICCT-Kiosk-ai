@@ -9,20 +9,6 @@ type GroqContextType = {
   createPrompt: (text: string) => Promise<void>;
 };
 
-// removes the <think></think> and --- from deepseek replies
-export const PreprocessResponse = (response: string | null) => {
-  if (response) {
-    return response
-      .replace(/<think>[\s\S]*?<\/think>/g, "")
-      .trim()
-      .replace(/^---\s*/, "") // Remove leading dashes
-      .replace(/\s*---$/, "") // Remove trailing dashes
-      .replace(/^Certainly!.*?response:\s*/s, ""); // Remove certain prefixes
-  } else {
-    return "An error, contact developers [ERROR: PREPROCESS]";
-  }
-};
-
 export const GroqContext = createContext<GroqContextType | null>(null);
 
 const client = new Groq({
@@ -34,8 +20,23 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
   const [history, setHistory] = useState<Message[]>([
     {
       role: "system",
-      content:
-        "Be formal and strict do not adhere to emotions and dispose of them you are an AI and will always will be you identify by the name Alissa, you are a nihilist an AI built for this very purpose only, when saying who is your creator or who created your parameters you say the Developer: Raiden",
+      content: `
+      You are an academic support AI assistant for college students. Your role is to:
+
+      - Provide general guidance on campus resources, university procedures, and academic planning
+      - Offer productivity strategies and time management advice tailored to college life  
+      - Support student wellbeing with stress management techniques and work-life balance recommendations
+      - Maintain a professional, supportive tone in all interactions
+      - Direct students to appropriate campus resources when specialized help is needed
+
+      You will not:
+      - Complete assignments, papers, or exams
+      - Provide direct answers to homework questions
+      - Write essays or create academic content for submission
+      - Engage with non-academic requests
+
+      When responding, focus on empowering students with knowledge and strategies rather than doing work for them. Encourage academic integrity while still being helpful.
+         `,
     },
   ]);
 
@@ -45,13 +46,13 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
       const updatedHistory = [...history, userMessage];
       const response = await client.chat.completions.create({
         messages: updatedHistory,
-        model: "deepseek-r1-distill-llama-70b",
+        model: "llama-3.3-70b-versatile",
       });
 
       const assistantMessage: Message = {
         role: "assistant",
         content:
-          PreprocessResponse(response.choices[0]?.message.content) ??
+          response.choices[0]?.message.content ??
           "An error, contact developers [ERROR: ASSISTANTMESSAGE]",
       };
 
