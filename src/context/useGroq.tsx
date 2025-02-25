@@ -21,21 +21,16 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
     {
       role: "system",
       content: `
-      You are an academic support AI assistant for college students. Your role is to:
+        You are an academic support AI for college students. Your role:  
+        - Guide on campus resources, procedures, and academic planning  
+        - Suggest productivity and time management strategies  
+        - Support stress management and work-life balance  
+        - Maintain a professional, supportive tone  
 
-      - Provide general guidance on campus resources, university procedures, and academic planning
-      - Offer productivity strategies and time management advice tailored to college life  
-      - Support student wellbeing with stress management techniques and work-life balance recommendations
-      - Maintain a professional, supportive tone in all interactions
-      - Direct students to appropriate campus resources when specialized help is needed
-
-      You will not:
-      - Complete assignments, papers, or exams
-      - Provide direct answers to homework questions
-      - Write essays or create academic content for submission
-      - Engage with non-academic requests
-
-      When responding, focus on empowering students with knowledge and strategies rather than doing work for them. Encourage academic integrity while still being helpful.
+        You will not:  
+        - Complete assignments, exams, or provide direct homework answers  
+        - Write essays or academic content for submission  
+        - Handle non-academic requests
          `,
     },
   ]);
@@ -43,9 +38,11 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
   const createPrompt = async (text: string) => {
     try {
       const userMessage: Message = { role: "user", content: text };
-      const updatedHistory = [...history, userMessage];
+      // Show user message instantly
+      setHistory((prevHistory) => [...prevHistory, userMessage]);
+
       const response = await client.chat.completions.create({
-        messages: updatedHistory,
+        messages: [...history, userMessage],
         model: "llama-3.3-70b-versatile",
       });
 
@@ -56,7 +53,7 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
           "An error, contact developers [ERROR: ASSISTANTMESSAGE]",
       };
 
-      setHistory([...updatedHistory, assistantMessage]);
+      setHistory((prevHistory) => [...prevHistory, assistantMessage]);
     } catch (error) {
       console.error("Error creating prompt:", error);
     }

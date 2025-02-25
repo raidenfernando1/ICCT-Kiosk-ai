@@ -20,6 +20,7 @@ const InputBar: React.FC = () => {
     }
   };
 
+  // adjusts input bar height when text get too long.
   const adjustHeight = () => {
     const textarea = textareaRef.current;
     if (textarea) {
@@ -33,11 +34,10 @@ const InputBar: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting:", value);
 
     if (value.trim()) {
       await groq?.createPrompt(value);
-      setValue(""); // Clear input after submission
+      setValue("");
     }
   };
 

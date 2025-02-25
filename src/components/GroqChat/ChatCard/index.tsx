@@ -13,7 +13,7 @@ export const AssistantCard: React.FC<{ children: string }> = ({ children }) => {
 export const UserCard: React.FC<{ children: string }> = ({ children }) => {
   return (
     <div className={styles.UserCard}>
-      <ReactMarkdown>{children}</ReactMarkdown>
+      <p>{children}</p>
     </div>
   );
 };
