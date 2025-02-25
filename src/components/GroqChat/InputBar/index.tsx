@@ -36,8 +36,8 @@ const InputBar: React.FC = () => {
     e.preventDefault();
 
     if (value.trim()) {
-      await groq?.createPrompt(value);
       setValue("");
+      await groq?.createPrompt(value);
     }
   };
 
