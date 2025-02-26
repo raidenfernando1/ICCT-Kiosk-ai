@@ -1,5 +1,5 @@
-import FaqSection from "../../components/Faq";
-import GroqChat from "../../components/GroqChat";
+import FaqSection from "../../components/faq-section";
+import GroqChat from "../../components/groq-chat";
 import styles from "./styles.module.css";
 
 const MainPage = () => {

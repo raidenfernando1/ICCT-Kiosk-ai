@@ -1,6 +1,6 @@
 import React from "react";
-import ChatArea from "./ChatArea";
-import InputBar from "./InputBar";
+import ChatArea from "./chat-area";
+import InputBar from "./input-bar";
 import styles from "./styles.module.css";
 
 const GroqChat: React.FC = () => {

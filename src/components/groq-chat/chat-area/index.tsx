@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { UserCard, AssistantCard } from "../ChatCard";
+import { UserCard, AssistantCard } from "../chat-card";
 import { useContext, useEffect, useState } from "react";
 import { GroqContext } from "../../../context/useGroq";
 
@@ -8,7 +8,6 @@ const ChatArea = () => {
   const [loadingDots, setLoadingDots] = useState("");
 
   useEffect(() => {
-    // Show loading indicator when the last message is from the user
     const lastMessage = groq?.history?.at(-1);
     if (lastMessage?.role === "user") {
       const interval = setInterval(() => {

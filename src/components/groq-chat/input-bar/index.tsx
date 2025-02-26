@@ -20,7 +20,6 @@ const InputBar: React.FC = () => {
     }
   };
 
-  // adjusts input bar height when text get too long.
   const adjustHeight = () => {
     const textarea = textareaRef.current;
     if (textarea) {

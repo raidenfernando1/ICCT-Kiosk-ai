@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import { getEmbedding } from "../hooks/useRag";
 import Groq from "groq-sdk";
 
 type Role = "user" | "assistant" | "system";
@@ -41,7 +42,6 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
   const createPrompt = async (text: string) => {
     try {
       const userMessage: Message = { role: "user", content: text };
-      // Show user message instantly
       setHistory((prevHistory) => [...prevHistory, userMessage]);
 
       const response = await client.chat.completions.create({

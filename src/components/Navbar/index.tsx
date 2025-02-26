@@ -5,7 +5,7 @@ const Navbar = () => {
   const NavItems = [
     { name: "RAID3N.NET | ARACHNID", path: "/" },
     { name: "ABOUT", path: "/about" },
-    { name: "ADMIN", path: "/login" },
+    { name: "ADMIN", path: "/admin" },
   ];
 
   return (

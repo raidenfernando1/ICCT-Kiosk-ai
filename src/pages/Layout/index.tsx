@@ -2,8 +2,9 @@ import { GroqProvider } from "../../context/useGroq";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styles from "./styles.module.css";
-import Navbar from "../../components/Navbar";
-import MainPage from "../Main";
+import Navbar from "../../components/navbar";
+import MainPage from "../main";
+import { AdminPage } from "../admin";
 
 export default function Layout() {
   const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -33,7 +34,7 @@ export default function Layout() {
       element: (
         <Layout>
           <Navbar />
-          {/* Admin */}
+          <AdminPage />
         </Layout>
       ),
       path: "/admin",
