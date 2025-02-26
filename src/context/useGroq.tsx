@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-import { getEmbedding } from "../hooks/useRag";
 import Groq from "groq-sdk";
 
 type Role = "user" | "assistant" | "system";
