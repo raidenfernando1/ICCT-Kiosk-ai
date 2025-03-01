@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { insertData } from "../../hooks/useSupabase";
 
 export const AdminPage = () => {
