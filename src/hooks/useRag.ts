@@ -1,13 +1,6 @@
 import { pipeline } from "@xenova/transformers";
 
-interface Tensor {
-  data: Float32Array | number[];
-  dims: number[];
-  type: string;
-  tolist?: () => number[];
-}
-
-export async function getEmbedding(text: string) {
+export async function getEmbedding(text: string): Promise<number[] | null> {
   try {
     if (!text || typeof text !== "string") {
       throw new Error("Input text must be a non-empty string.");
@@ -20,40 +13,27 @@ export async function getEmbedding(text: string) {
 
     const output = await extractor(text, { pooling: "mean", normalize: true });
 
-    console.log("Raw output from embedding:", output);
-
-    if (!output) {
-      throw new Error("Failed to generate embeddings.");
-    }
-
     let vector: number[];
 
     if (
-      (output as Tensor).data instanceof Float32Array ||
-      Array.isArray((output as Tensor).data)
+      "data" in output &&
+      (output.data instanceof Float32Array || Array.isArray(output.data))
     ) {
-      vector = Array.from((output as Tensor).data);
-    } else if (Array.isArray(output) && (output[0] as Tensor)?.data) {
-      vector = Array.from((output[0] as Tensor).data);
-    } else if ((output as Tensor).tolist) {
-      vector = (output as Tensor).tolist!();
+      vector = Array.from(output.data);
+    } else if (Array.isArray(output) && "data" in output[0]) {
+      vector = Array.from(output[0].data);
+    } else if ("tolist" in output && typeof output.tolist === "function") {
+      vector = output.tolist();
     } else if (Array.isArray(output)) {
-      if (Array.isArray(output[0])) {
-        vector = Array.from(output[0] as number[]);
-      } else {
-        vector = Array.from(output as unknown as number[]);
-      }
+      vector = Array.isArray(output[0])
+        ? Array.from(output[0])
+        : Array.from(output);
     } else {
-      console.error("Unexpected output structure:", output);
-      throw new Error("Unknown output structure. Check console for details.");
+      throw new Error("Unknown output structure");
     }
 
-    if (
-      !Array.isArray(vector) ||
-      vector.some((v) => typeof v !== "number" && !isFinite(v))
-    ) {
-      console.error("Invalid vector format:", vector);
-      throw new Error("Invalid embedding format received.");
+    if (vector.some((v) => typeof v !== "number" || !isFinite(v))) {
+      throw new Error("Invalid embedding format");
     }
 
     return vector;

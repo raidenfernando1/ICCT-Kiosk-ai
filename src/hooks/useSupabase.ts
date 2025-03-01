@@ -1,37 +1,52 @@
 import { createClient } from "@supabase/supabase-js";
+import { getEmbedding } from "./useRag";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_LINK;
 const SUPABASE_API_KEY = import.meta.env.VITE_SUPABASE_KEY;
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_API_KEY);
 
-export const insertData = async (
-  questionEmbedding: number[] | null,
-  contentEmbedding: number[] | null
-) => {
+export async function insertData(
+  category: string,
+  question: string,
+  content: string
+) {
   try {
-    if (!questionEmbedding || !contentEmbedding) {
-      throw new Error("Failed to generate embeddings.");
-    }
-
-    const { data, error } = await supabase
-      .from("data_entry")
-      .insert([
-        {
-          question: questionEmbedding,
-          content: contentEmbedding,
-        },
-      ])
-      .select();
+    const { data, error } = await supabase.rpc("insert_data", {
+      category,
+      question,
+      content,
+      question_vector: await getEmbedding(question),
+    });
 
     if (error) {
-      console.error("Supabase error:", error);
-      return null;
+      console.error("Error:", error);
+      return `Error: ${error.message}`;
     }
 
     return data;
-  } catch (err) {
+  } catch (err: any) {
     console.error("Insertion error:", err);
-    return null;
+    return `Error: ${err.message}`;
   }
-};
+}
+
+export async function requestData(question: string) {
+  try {
+    const { data, error } = await supabase.rpc("find_similar", {
+      input_vector: await getEmbedding(question),
+    });
+
+    if (error) {
+      console.error("Error:", error.message);
+      return `Error: ${error.message}`;
+    }
+
+    console.log(data);
+
+    return data;
+  } catch (err: any) {
+    console.error("Find Similar Error:", err);
+    return `Error: ${err.message}`;
+  }
+}
