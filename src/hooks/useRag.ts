@@ -1,4 +1,7 @@
-import { pipeline } from "@xenova/transformers";
+import { pipeline, env } from "@xenova/transformers";
+
+env.useBrowserCache = true;
+env.allowLocalModels = true;
 
 export async function getEmbedding(text: string): Promise<number[] | null> {
   try {
