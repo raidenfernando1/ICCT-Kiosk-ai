@@ -1,14 +1,26 @@
-import { GroqProvider } from "../../context/useGroq";
+import { GroqProvider } from "../context/useGroq";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import styles from "./styles.module.css";
-import Navbar from "../../components/navbar";
-import MainPage from "../main";
-import { AdminPage } from "../admin";
+import styled from "styled-components";
+import Navbar from "../components/Navbar";
+import MainPage from "./Main";
+import AdminPage from "./Admin";
+
+const Container = {
+  LayoutContainer: styled.main`
+    margin-inline: var(--layout-inline-space);
+    padding-block: 70px;
+    height: 100dvh;
+
+    @media (max-width: 768px) {
+      padding-bottom: var(--layout-inline-space);
+    }
+  `,
+};
 
 export default function Layout() {
   const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    return <main className={styles.LayoutContainer}>{children}</main>;
+    return <Container.LayoutContainer>{children}</Container.LayoutContainer>;
   };
 
   const RouteList = [
