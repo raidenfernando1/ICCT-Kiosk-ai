@@ -1,5 +1,5 @@
 import { UserCard, AssistantCard } from "./ResponseCards";
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import { GroqContext } from "../../context/useGroq";
 import styled from "styled-components";
 import { ScaleLoader } from "react-spinners";
@@ -27,12 +27,6 @@ const Container = {
 
 const ChatArea = () => {
   const groq = useContext(GroqContext);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const lastMessage = groq?.history?.at(-1);
-    setIsLoading(lastMessage?.role === "user");
-  }, [groq?.history]);
 
   return (
     <Container.Container>
@@ -46,7 +40,7 @@ const ChatArea = () => {
               <UserCard key={index}>{data.content}</UserCard>
             )
           )}
-        {isLoading && <ScaleLoader color="rgb(190, 190, 190)" />}
+        {groq?.isLoading && <ScaleLoader color="rgb(190, 190, 190)" />}
       </Container.Wrapper>
     </Container.Container>
   );
