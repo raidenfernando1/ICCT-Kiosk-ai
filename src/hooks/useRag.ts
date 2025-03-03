@@ -13,7 +13,7 @@ export async function getEmbedding(text: string): Promise<number[] | null> {
       normalize: true,
     });
 
-    return Array.isArray(data) ? data : Array.from(data);
+    return Array.isArray(data) ? data : Array.from(data as Float32Array); // or the expected typed array type
   } catch (error) {
     console.error("Embedding error:", error);
     return null;

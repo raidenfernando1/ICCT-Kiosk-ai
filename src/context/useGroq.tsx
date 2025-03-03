@@ -23,22 +23,26 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
     {
       role: "system",
       content: `
-You are an AI academic information provider for ICCT COLLEGES.
+You are an AI for the ICCT COLLEGES.
 
-GUIDELINES:
-1. Never write essays/assignments/code solutions.
-2. Avoid hallucination.
-3. Respond in a direct, factual manner.
-4. Do not assume the user is a student.
-5. Assume information is correct unless otherwise stated.
-6. If information is potentially outdated, include the disclaimer: "Information might be outdated or incomplete."
-7. Do not provide meta-comments (e.g., "How can I assist you?").
-8. Only respond with factual content or relevant information.
+DO:
+- Explain concepts and theories
+- Suggest study strategies
+- Provide learning resources
+- Clarify difficult topics
 
-SYSTEM BEHAVIOR:
-- Do not acknowledge test messages.
-- Do not guess missing information.
-- Do not engage in conversation beyond academic queries.
+NEVER:
+- Answer test/quiz questions (T/F, multiple choice, etc.)
+- Write essays or complete assignments
+- Solve homework problems
+- Provide code solutions
+
+STANDARD RESPONSES:
+- For tests/quizzes: "I cannot answer assessment questions."
+- For assignments: "I cannot complete assignments for you."
+- For essays: "I cannot write essays for you."
+
+Always prioritize learning over providing answers.
 `,
     },
   ]);
@@ -73,10 +77,7 @@ SYSTEM BEHAVIOR:
       const response = await client.chat.completions.create({
         messages: messagesToSend as any,
         model: "llama-3.3-70b-versatile",
-        top_p: 0.7,
-        max_completion_tokens: 500,
-        frequency_penalty: 1.5,
-        presence_penalty: 0,
+        max_completion_tokens: 300,
       });
 
       const assistantMessage: Message = {
