@@ -13,20 +13,19 @@ const MainContainer = {
     justify-content: space-between;
   `,
   TopContent: styled.div`
+    height: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
     > :first-child {
       height: 100%;
       width: 40%;
     }
     > :last-child {
-      width: clamp(
-        200px,
-        50vh,
-        400px
-      ); /* Min 200px, preferred 50vh, max 400px */
-      height: clamp(200px, 50vh, 400px);
-      object-fit: cover; /* Optional, for better image fitting */
+      width: clamp(200px, 30vh, 400px);
+      height: clamp(200px, 30vh, 400px);
+      object-fit: cover;
     }
   `,
   Divider: styled.div`
@@ -81,6 +80,8 @@ const SectionContainer = {
     flex-direction: column;
     justify-content: center;
     gap: 20px;
+    padding-block: 20px;
+    border-top: 1px solid rgb(55, 55, 55);
   `,
   Content: styled.div``,
   Footer: styled.footer`
@@ -120,14 +121,14 @@ const AdminPage = () => {
         </LoginContainer.Container>
         <img src="icct-logo.png" />
       </MainContainer.TopContent>
-      <MainContainer.Divider />
       {/* Footer */}
       <SectionContainer.Container>
         <SectionContainer.Content>
           <p>Unauthorized access is strictly prohibited.</p>
           <p>
-            Only authorized personnel are permitted to access this system. All
-            activity is logged and monitored to ensure security and compliance.
+            Only authorized personnel are permitted to access this system.
+            Activities is logged and monitored to ensure security and
+            compliance.
           </p>
           <p>
             By proceeding, you acknowledge that any unauthorized attempts will
@@ -141,13 +142,6 @@ const AdminPage = () => {
               Contact this email: <span>raidenfernando2@gmail.com</span>
             </p>
           </SectionContainer.ContactMe>
-          <SectionContainer.TechUsed>
-            <p>Tech stack used:</p>
-            <ReactIcon /> +
-            <SupabaseIcon /> +
-            <HugginFaceIcon /> +
-            <GroqIcon />
-          </SectionContainer.TechUsed>
         </SectionContainer.Footer>
       </SectionContainer.Container>
     </MainContainer.Container>
