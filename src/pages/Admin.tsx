@@ -1,9 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import ReactIcon from "../../public/react.svg?react";
-import HugginFaceIcon from "../../public/hugging-face.svg?react";
-import SupabaseIcon from "../../public/supabase.svg?react";
-import GroqIcon from "../../public/groq.svg?react";
 
 const MainContainer = {
   Container: styled.main`
