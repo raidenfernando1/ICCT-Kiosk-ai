@@ -33,8 +33,10 @@ export async function insertData(
 
 export async function requestData(question: string) {
   try {
+    const questionEmbedding = await getEmbedding(question);
+
     const { data, error } = await supabase.rpc("find_similar", {
-      input_vector: await getEmbedding(question),
+      input_vector: questionEmbedding,
     });
 
     if (error) {

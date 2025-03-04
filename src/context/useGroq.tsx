@@ -1,12 +1,13 @@
 import React, { createContext, useState } from "react";
+import HeatIndex from "../utils/getHeat";
 import { requestData } from "../hooks/useSupabase";
 import Groq from "groq-sdk";
 
-type Role = "user" | "assistant" | "system";
-type Message = { role: Role; content: string };
+type Message = { role: "user" | "assistant" | "system"; content: string };
 type GroqContextType = {
   history: Message[];
   createPrompt: (text: string) => Promise<void>;
+  isLoading: boolean;
 };
 
 export const GroqContext = createContext<GroqContextType | null>(null);
@@ -16,110 +17,67 @@ const client = new Groq({
   dangerouslyAllowBrowser: true,
 });
 
-const HEAT_THRESHOLD = 2;
-const heatWords = [
-  "who",
-  "what",
-  "where",
-  "when",
-  "why",
-  "how",
-  "explain",
-  "describe",
-  "analyze",
-  "compare",
-  "contrast",
-  "define",
-  "list",
-  "outline",
-  "summarize",
-  "evaluate",
-  "icct",
-  "college",
-  "course",
-  "professor",
-  "campus",
-  "class",
-];
-
-const calculateHeatIndex = (text: string): number => {
-  const normalizedText = text.toLowerCase();
-  let heatIndex = 0;
-
-  heatWords.forEach((word) => {
-    const regex = new RegExp(`\\b${word}\\b`, "gi");
-    const matches = normalizedText.match(regex);
-    if (matches) {
-      heatIndex += matches.length;
-    }
-  });
-
-  if (text.length > 50) heatIndex += 1;
-  if (text.includes("?")) heatIndex += 1;
-
-  return heatIndex;
-};
-
 export function GroqProvider({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [history, setHistory] = useState<Message[]>([
     {
       role: "system",
       content: `
-  You are an AI academic information provider for ICCT COLLEGES.
-  You do not have a name, You are not mistral AI,
+You are an AI for the ICCT COLLEGES.
 
-  GUIDELINES:
-  1. Never write essays/assignments/code solutions.
-  2. State "I don't have this information" when uncertain or no data is received for an academic inquiry.
-  3. Avoid hallucination.
-  4. Respond in a direct, factual manner.
-  5. Do not assume the user is a student.
-  6. Assume information is correct unless otherwise stated, but do not explicitly mention uncertainty every time.
-  `,
+DO:
+- Explain concepts and theories
+- Suggest study strategies
+- Provide learning resources
+- Clarify difficult topics
+
+NEVER:
+- Answer test/quiz questions (T/F, multiple choice, etc.)
+- Write essays or complete assignments
+- Solve homework problems
+- Provide code solutions
+
+STANDARD RESPONSES:
+- For tests/quizzes: "I cannot answer assessment questions."
+- For assignments: "I cannot complete assignments for you."
+- For essays: "I cannot write essays for you."
+
+Always prioritize learning over providing answers.
+`,
     },
   ]);
 
-  const createPrompt = async (text: string) => {
+  const createPrompt = async (input: string) => {
     try {
-      const userMessage: Message = { role: "user", content: text };
+      const userMessage: Message = { role: "user", content: input };
+
       setHistory((prevHistory) => [...prevHistory, userMessage]);
+      setIsLoading(true);
 
-      const heatIndex = calculateHeatIndex(text);
-      console.log(`Heat index for query: ${heatIndex}`);
+      const needsDatabaseInfo = HeatIndex(input);
+      let contextData = "";
 
-      let relevantData = "";
-      if (heatIndex >= HEAT_THRESHOLD) {
-        relevantData = await requestData(text);
-        console.log("Database queried due to high heat index");
-        console.log("Data retrieved:", relevantData);
+      if (needsDatabaseInfo) {
+        try {
+          contextData = await requestData(input);
+        } catch (dbError) {
+          console.error("Error fetching database information:", dbError);
+        }
       }
 
-      const messagesToSend: Message[] = [];
+      const messagesToSend: Message[] = [...history, userMessage];
 
-      const originalSystemMessage = history.find(
-        (msg) => msg.role === "system"
-      );
-
-      if (originalSystemMessage) {
-        let systemContent = originalSystemMessage.content;
-
-        if (relevantData && relevantData.trim().length > 0) {
-          systemContent += `\n\nRELEVANT INFORMATION FOR THIS QUERY: ${relevantData}\n\nUse the above information as context.`;
-        }
-
+      if (contextData && contextData.trim() !== "") {
         messagesToSend.push({
           role: "system",
-          content: systemContent,
+          content: `Here is relevant information from the database that might help answer the query: ${contextData}`,
         });
       }
 
-      messagesToSend.push(...history.filter((msg) => msg.role !== "system"));
-
-      messagesToSend.push(userMessage);
-
       const response = await client.chat.completions.create({
         messages: messagesToSend as any,
-        model: "mixtral-8x7b-32768",
+        model: "llama-3.3-70b-versatile",
+        max_completion_tokens: 300,
       });
 
       const assistantMessage: Message = {
@@ -130,13 +88,15 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
       };
 
       setHistory((prevHistory) => [...prevHistory, assistantMessage]);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error creating prompt:", error);
+      setIsLoading(false);
     }
   };
 
   return (
-    <GroqContext.Provider value={{ history, createPrompt }}>
+    <GroqContext.Provider value={{ history, createPrompt, isLoading }}>
       {children}
     </GroqContext.Provider>
   );
