@@ -1,10 +1,10 @@
-import { GroqProvider } from "../context/useGroq";
 import React from "react";
+import { GroqProvider } from "../context/useGroq";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import MainPage from "./Main";
-import AdminPage from "./Admin";
+import CMSPage from "./CMS";
 
 const Container = {
   LayoutContainer: styled.main`
@@ -45,8 +45,7 @@ export default function Layout() {
     {
       element: (
         <Layout>
-          <Navbar />
-          <AdminPage />
+          <CMSPage />
         </Layout>
       ),
       path: "/admin",
