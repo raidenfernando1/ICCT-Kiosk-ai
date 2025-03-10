@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import MainPage from "./Main";
-import CMSPage from "./CMS";
+import AdminPage from "./Admin";
 
 const Container = {
   LayoutContainer: styled.main`
@@ -45,7 +45,7 @@ export default function Layout() {
     {
       element: (
         <Layout>
-          <CMSPage />
+          <AdminPage />
         </Layout>
       ),
       path: "/admin",

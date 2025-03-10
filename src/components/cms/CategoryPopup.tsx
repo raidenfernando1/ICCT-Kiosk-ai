@@ -54,6 +54,7 @@ const Container = {
       border: none;
       outline: none;
       color: inherit;
+      width: 100%;
       font-size: 1rem;
     }
   `,

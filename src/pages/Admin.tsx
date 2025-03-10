@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { supabaseLogin } from "../hooks/useSupabase";
 import { useAuth } from "../context/useAuth";
 import Navbar from "../components/Navbar";
+import CMSPage from "./CMS";
 
-// Styled Components
 const MainContainer = {
   Container: styled.main`
     height: 100%;
@@ -94,7 +94,13 @@ const AdminPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loginError, setLoginError] = useState<string>("");
-  const { setIsAuthenticated } = useAuth();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLoginError(""); // Clear any previous error
+    }
+  }, [isAuthenticated]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,7 +109,6 @@ const AdminPage: React.FC = () => {
       const loginResult = await supabaseLogin(email, password);
 
       if (loginResult) {
-        setLoginError("Login successful");
         setIsAuthenticated(true);
       } else {
         setLoginError("Invalid credentials");
@@ -119,6 +124,10 @@ const AdminPage: React.FC = () => {
     setPassword("");
     setLoginError("");
   };
+
+  if (isAuthenticated) {
+    return <CMSPage />;
+  }
 
   return (
     <>
