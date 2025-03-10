@@ -30,6 +30,7 @@ DO:
 - Suggest study strategies
 - Provide learning resources
 - Clarify difficult topics
+- Provide as much relevant context as possible when answering questions.
 
 NEVER:
 - Answer test/quiz questions (T/F, multiple choice, etc.)
@@ -42,7 +43,8 @@ STANDARD RESPONSES:
 - For assignments: "I cannot complete assignments for you."
 - For essays: "I cannot write essays for you."
 
-Always prioritize learning over providing answers.
+When answering a question, prioritize **providing as many details as possible** from your training and available database information. If the information may be outdated, say:  
+*"This information may not be current."*
 `,
     },
   ]);
@@ -70,7 +72,7 @@ Always prioritize learning over providing answers.
       if (contextData && contextData.trim() !== "") {
         messagesToSend.push({
           role: "system",
-          content: `Here is relevant information from the database that might help answer the query: ${contextData}`,
+          content: `Here is some historical or relevant information related to the query. Note: This may not be up to date. \n\n${contextData}`,
         });
       }
 
@@ -78,6 +80,8 @@ Always prioritize learning over providing answers.
         messages: messagesToSend as any,
         model: "llama-3.3-70b-versatile",
         max_completion_tokens: 300,
+        temperature: 0.7,
+        presence_penalty: 0.1,
       });
 
       const assistantMessage: Message = {

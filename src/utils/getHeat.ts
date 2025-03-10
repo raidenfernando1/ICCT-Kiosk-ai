@@ -32,6 +32,7 @@ const fuse = new Fuse(HeatWords, {
 });
 
 const HeatIndex = (userInput: string) => {
+  console.log("hello from getheat");
   if (!userInput || typeof userInput !== "string") return false;
   const preprocessedWords = userInput.toLowerCase().split(/\s+/);
   let heatScore = 0;

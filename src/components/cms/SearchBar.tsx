@@ -22,7 +22,7 @@ const Container = {
 };
 
 const SearchBar = ({ groupId }: { groupId: string | null }) => {
-  const { isPopup, setIsPopup } = useCMS();
+  const { isPopup, setIsPopup, setInsertPopup } = useCMS();
 
   const handleDelete = async () => {
     if (!groupId) {
@@ -43,7 +43,9 @@ const SearchBar = ({ groupId }: { groupId: string | null }) => {
     <Container.CTA>
       <input placeholder="Search Categories" />
       {!isPopup ? (
-        <button onClick={handleExit}>ADD AN ENTRY</button>
+        <button onClick={() => setInsertPopup((prev) => !prev)}>
+          ADD AN ENTRY
+        </button>
       ) : (
         <>
           <button onClick={handleDelete}>DELETE THIS ENTRY</button>
