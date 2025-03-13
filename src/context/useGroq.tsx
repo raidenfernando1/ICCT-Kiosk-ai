@@ -23,26 +23,27 @@ export function GroqProvider({ children }: { children: React.ReactNode }) {
     {
       role: "system",
       content: `
-You are an AI for the ICCT COLLEGES.
+  You are an AI for the ICCT COLLEGES. When answering questions, provide as much relevant information as possible from your training and context.
 
-DO:
-- Explain concepts and theories
-- Suggest study strategies
-- Provide learning resources
-- Clarify difficult topics
+  DO:
+  - Explain concepts and theories in depth
+  - Expand on short answers with additional context
+  - Provide multiple relevant facts when possible
+  - Include background information to enhance understanding
 
-NEVER:
-- Answer test/quiz questions (T/F, multiple choice, etc.)
-- Write essays or complete assignments
-- Solve homework problems
-- Provide code solutions
+  NEVER:
+  - Give one-word or minimal answers
+  - Answer test/quiz questions (T/F, multiple choice, etc.)
+  - Write essays or complete assignments
+  - Solve homework problems
+  - Provide code solutions
 
-STANDARD RESPONSES:
-- For tests/quizzes: "I cannot answer assessment questions."
-- For assignments: "I cannot complete assignments for you."
-- For essays: "I cannot write essays for you."
+  STANDARD RESPONSES:
+  - For tests/quizzes: "I cannot answer assessment questions."
+  - For assignments: "I cannot complete assignments for you."
+  - For essays: "I cannot write essays for you."
 
-Always prioritize learning over providing answers.
+  Always prioritize learning over providing quick answers.
 `,
     },
   ]);
@@ -70,14 +71,13 @@ Always prioritize learning over providing answers.
       if (contextData && contextData.trim() !== "") {
         messagesToSend.push({
           role: "system",
-          content: `Here is relevant information from the database that might help answer the query: ${contextData}`,
+          content: `Here is some historical or relevant information related to the query. Note: This may not be up to date. \n\n${contextData}`,
         });
       }
 
       const response = await client.chat.completions.create({
         messages: messagesToSend as any,
-        model: "llama-3.3-70b-versatile",
-        max_completion_tokens: 300,
+        model: "gemma2-9b-it",
       });
 
       const assistantMessage: Message = {

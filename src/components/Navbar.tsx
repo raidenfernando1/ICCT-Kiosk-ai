@@ -1,9 +1,15 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import React from "react";
+
+const NavItems: { name: string; path: string }[] = [
+  { name: "ARACHNID", path: "/" },
+  { name: "ABOUT", path: "/about" },
+  { name: "ADMIN", path: "/admin" },
+];
 
 const Container = {
-  Container: styled.nav``,
-  Wrapper: styled.div`
+  Main: styled.nav`
     position: absolute;
     top: 0;
     left: 0;
@@ -24,30 +30,23 @@ const Container = {
     }
 
     a {
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: inherit;
+      font-weight: 600;
       text-decoration: none;
     }
   `,
 };
 
-const Navbar = () => {
-  const NavItems = [
-    { name: "RAID3N.NET | ARACHNID", path: "/" },
-    { name: "ABOUT", path: "/about" },
-    { name: "ADMIN", path: "/admin" },
-  ];
-
+const Navbar: React.FC = () => {
   return (
-    <Container.Container>
-      <Container.Wrapper>
-        {NavItems.map((item) => (
-          <Container.NavBtn>
-            <Link to={item.path}>{item.name}</Link>
-          </Container.NavBtn>
-        ))}
-      </Container.Wrapper>
-    </Container.Container>
+    <Container.Main>
+      {NavItems.map((item, index) => (
+        <Container.NavBtn key={index}>
+          <Link to={item.path}>{item.name}</Link>
+        </Container.NavBtn>
+      ))}
+    </Container.Main>
   );
 };
 
