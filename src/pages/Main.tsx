@@ -3,39 +3,35 @@ import FaqSection from "../components/faq-section/FaqSection";
 import styled from "styled-components";
 
 const Container = {
-  Container: styled.div`
+  Main: styled.div`
     height: 100%;
     display: flex;
     gap: 30px;
 
-    > :first-child {
-      width: 60%;
-      height: 100%;
-    }
-
-    > :last-child {
-      width: 40%;
-      height: 100%;
-    }
-
     @media (max-width: 768px) {
-      height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 30px;
-
-      > :first-child {
-        width: 100%;
-        height: 60%;
-      }
-
-      > :last-child {
-        width: 100%;
-        height: 40%;
-      }
     }
   `,
+  ChatSection: styled.div`
+    width: 60%;
+    height: 100%;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 80%;
+    }
+  `,
+  FaqSection: styled.div`
+    width: 40%;
+    height: 100%;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 40%;
+    }
+  `,
+
   Divider: styled.div`
     height: 100%;
     width: 1px;
@@ -51,11 +47,15 @@ const Container = {
 
 const MainPage = () => {
   return (
-    <Container.Container>
-      <GroqChat />
+    <Container.Main>
+      <Container.ChatSection>
+        <GroqChat />
+      </Container.ChatSection>
       <Container.Divider />
-      <FaqSection />
-    </Container.Container>
+      <Container.FaqSection>
+        <FaqSection />
+      </Container.FaqSection>
+    </Container.Main>
   );
 };
 
