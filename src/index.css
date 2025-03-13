@@ -1,13 +1,39 @@
 :root {
   height: 100%;
 
-  font-family: "Lexend Deca", serif;
-  font-size: 16px;
-  letter-spacing: 0.4px;
-  font-weight: 400;
+  --font-family: "DM Sans", serif;
+  --letter-spacing: 0.4px;
+  --font-weight: 400;
 
-  color: rgba(255, 255, 255, 0.87);
-  background-color: rgb(25, 25, 25);
+  --background-color: #1b1b1b;
+  --font-color: #d4d4d4;
+  --secondary-font-color: #a89788;
+  --heading-color: #e5d7c5;
+
+  --accent-color: #c18e60;
+  --accent-hover-color: #af6e4d;
+  --muted-accent-color: #715a4d;
+
+  --interactive-color: #d9a066;
+  --interactive-hover-color: #b97745;
+
+  --layout-inline-space: 5%;
+  --border-radius: 8px;
+  --box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  --transition-speed: 0.2s ease-in-out;
+
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing);
+  font-weight: var(--font-weight);
+  color: var(--font-color);
+  background-color: var(--background-color);
 }
 
 html {
@@ -18,13 +44,9 @@ html {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Lexend Deca", sans-serif;
 }
 
-/* Global Variables */
-
 #root {
-  --background-color: rgb(15, 15, 15);
-  --font-color: rgb(190, 190, 190);
-  --layout-inline-space: 5%;
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
