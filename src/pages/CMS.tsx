@@ -4,7 +4,7 @@ import ContentContainer from "../components/cms/ContentContainer";
 import { CMSProvider } from "../context/useCMS";
 
 const Container = {
-  MainContainer: styled.main`
+  Main: styled.main`
     width: 100;
     height: 100%;
   `,
@@ -13,10 +13,10 @@ const Container = {
 const CMSPage = () => {
   return (
     <CMSProvider>
-      <Container.MainContainer>
+      <Container.Main>
         <Navbar />
         <ContentContainer />
-      </Container.MainContainer>
+      </Container.Main>
     </CMSProvider>
   );
 };
