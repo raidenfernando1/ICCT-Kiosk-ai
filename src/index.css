@@ -7,8 +7,6 @@
 
   --background-color: #1b1b1b;
   --font-color: #d4d4d4;
-  --secondary-font-color: #a89788;
-  --heading-color: #e5d7c5;
 
   --accent-color: #c18e60;
   --accent-hover-color: #af6e4d;
@@ -18,7 +16,7 @@
   --interactive-hover-color: #b97745;
 
   --layout-inline-space: 5%;
-  --border-radius: 8px;
+  --border-color: #d4d4d4;
 
   --transition-speed: 0.2s ease-in-out;
 
