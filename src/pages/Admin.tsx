@@ -9,62 +9,56 @@ const Container = {
   Main: styled.main`
     height: 100%;
     display: flex;
+
     flex-direction: column;
     justify-content: space-between;
   `,
   Top: styled.div`
     height: 100%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    > :first-child {
-      height: 100%;
-      width: 40%;
-    }
-
-    > :last-child {
-      width: clamp(200px, 30vh, 400px);
-      height: clamp(200px, 30vh, 400px);
-      object-fit: cover;
-    }
   `,
 };
 
 const Login = {
   Container: styled.form`
+    width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
 
     > p {
       font-size: 1.2rem;
+      margin-bottom: 10px;
+      font-weight: bold;
     }
 
     > input {
+      margin-bottom: 10px;
       font-size: 1.2rem;
-      border: 1px solid rgb(55, 55, 55);
-      background: rgb(20, 20, 20);
-      padding: 5px;
+      padding: 10px 20px;
+      background: none;
       color: inherit;
-      outline: none;
+      border: 1px solid var(--border-color);
       border-radius: 5px;
     }
   `,
   Buttons: styled.div`
     display: flex;
-    gap: 30px;
+    gap: 20px;
 
     > button {
       width: 50%;
-      font-size: 1.2rem;
-      border: 1px solid rgb(55, 55, 55);
-      background: rgb(20, 20, 20);
-      padding: 5px;
-      color: inherit;
-      outline: none;
+      padding: 10px 20px;
+      border: 1px solid var(--border-color);
       border-radius: 5px;
+      background: none;
+      color: inherit;
+      font-weight: bold;
+      font-size: 1rem;
+      text-align: left;
       cursor: pointer;
     }
   `,
@@ -177,13 +171,11 @@ const AdminPage: React.FC = () => {
 
           <Login.Buttons>
             <button type="submit">Submit</button>
-            <button type="button" onClick={handleReset}>
+            <button type="reset" onClick={handleReset}>
               Reset
             </button>
           </Login.Buttons>
         </Login.Container>
-
-        <img src="icct-logo.png" alt="ICCT Logo" />
       </Container.Top>
 
       <Section.Container>

@@ -3,8 +3,14 @@ import styled from "styled-components";
 
 const Card = {
   Container: styled.button`
+    font-size: 1.2rem;
     padding: 10px;
     text-align: left;
+    background: none;
+    color: inherit;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
   `,
 };
 
