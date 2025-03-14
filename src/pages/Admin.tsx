@@ -205,7 +205,6 @@ const AdminPage: React.FC = () => {
             Contact this email: <span>raidenfernando2@gmail.com</span>
           </p>
         </div>
-        <Spider />
       </Section.Container>
     </Container.Main>
   );

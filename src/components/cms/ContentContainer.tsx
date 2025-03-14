@@ -8,18 +8,18 @@ import SearchBar from "./SearchBar";
 import AddEntry from "./AddEntry";
 
 const Container = {
-  Container: styled.div`
+  Main: styled.div`
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
   `,
-  PopupWrapper: styled.div`
+  Wrapper: styled.div`
     flex: 1;
     overflow: hidden;
   `,
-  ContentsContainer: styled.ul`
+  Contents: styled.ul`
     padding-block: 30px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -54,19 +54,19 @@ const ContentContainer = () => {
   };
 
   return (
-    <Container.Container>
+    <Container.Main>
       <SearchBar groupId={selectedGroupId} />
 
       {insertPopup ? (
-        <Container.PopupWrapper>
+        <Container.Wrapper>
           <AddEntry />
-        </Container.PopupWrapper>
+        </Container.Wrapper>
       ) : isPopup ? (
-        <Container.PopupWrapper>
+        <Container.Wrapper>
           <CategoryPopup groupId={selectedGroupId} />
-        </Container.PopupWrapper>
+        </Container.Wrapper>
       ) : (
-        <Container.ContentsContainer>
+        <Container.Contents>
           {mainEntries.map((entry) => (
             <CategoryCard
               key={entry.group_id}
@@ -75,9 +75,9 @@ const ContentContainer = () => {
               onClick={() => handleClick(entry.group_id)}
             />
           ))}
-        </Container.ContentsContainer>
+        </Container.Contents>
       )}
-    </Container.Container>
+    </Container.Main>
   );
 };
 

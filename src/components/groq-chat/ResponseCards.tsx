@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 
 const Assistant = {
-  Container: styled.div`
+  Main: styled.div`
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@ const Assistant = {
 };
 
 const User = {
-  Container: styled.div`
+  Main: styled.div`
     padding: 8px;
     background-color: rgb(50, 50, 50);
     border-radius: 5px;
@@ -50,16 +50,16 @@ const User = {
 
 export const AssistantCard: React.FC<{ children: string }> = ({ children }) => {
   return (
-    <Assistant.Container>
+    <Assistant.Main>
       <ReactMarkdown>{children}</ReactMarkdown>
-    </Assistant.Container>
+    </Assistant.Main>
   );
 };
 
 export const UserCard: React.FC<{ children: string }> = ({ children }) => {
   return (
-    <User.Container>
+    <User.Main>
       <p>{children}</p>
-    </User.Container>
+    </User.Main>
   );
 };

@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { useCMS } from "../../context/useCMS";
 import { deleteGroup } from "../../hooks/useSupabase";
 
-const Container = {
-  CTA: styled.div`
+const Search = {
+  Main: styled.div`
     display: flex;
     padding-block: 30px;
     gap: 10px;
@@ -40,7 +40,7 @@ const SearchBar = ({ groupId }: { groupId: string | null }) => {
   };
 
   return (
-    <Container.CTA>
+    <Search.Main>
       <input placeholder="Search Categories" />
       {!isPopup ? (
         <button onClick={() => setInsertPopup((prev) => !prev)}>
@@ -52,7 +52,7 @@ const SearchBar = ({ groupId }: { groupId: string | null }) => {
           <button onClick={handleExit}>EXIT</button>
         </>
       )}
-    </Container.CTA>
+    </Search.Main>
   );
 };
 

@@ -36,7 +36,6 @@ export async function insertData(
       return `Error: ${error.message}`;
     }
 
-    console.log("Insert Successful:", data);
     return data;
   } catch (err: any) {
     console.error("Insertion error:", err);
@@ -47,7 +46,6 @@ export async function insertData(
 export async function requestData(question: string) {
   try {
     const questionEmbedding = await getEmbedding(question);
-    console.log(questionEmbedding);
 
     const { data, error } = await supabase.rpc("find_similar", {
       input_vector: questionEmbedding,
@@ -57,8 +55,6 @@ export async function requestData(question: string) {
       console.error("Error:", error.message);
       return `Error: ${error.message}`;
     }
-
-    console.log(data);
 
     return data;
   } catch (err: any) {
@@ -90,7 +86,6 @@ export async function fetchMainEntries() {
       return [];
     }
 
-    console.log("Main Entries Retrieved:", data);
     return data;
   } catch (err: any) {
     console.error("Fetch error:", err);
@@ -99,8 +94,6 @@ export async function fetchMainEntries() {
 }
 
 export const fetchGroupData = async (groupId: string) => {
-  console.log("Fetching group data for:", groupId);
-
   const { data, error } = await supabase.rpc(
     "get_group_content_and_questions",
     {

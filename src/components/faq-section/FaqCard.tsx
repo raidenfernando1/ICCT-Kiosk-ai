@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = {
-  Container: styled.button`
+const Card = {
+  Main: styled.button`
     width: 100%;
     text-align: left;
     color: inherit;
@@ -12,16 +12,16 @@ const Container = {
     border: 1px solid rgb(55, 55, 55);
     border-radius: 10px;
   `,
-  CardTitle: styled.p`
+  Title: styled.p`
     font-size: 1.2rem;
   `,
 };
 
 const FaqCard: React.FC<{ title: string }> = ({ title }) => {
   return (
-    <Container.Container>
-      <Container.CardTitle>{title}</Container.CardTitle>
-    </Container.Container>
+    <Card.Main>
+      <Card.Title>{title}</Card.Title>
+    </Card.Main>
   );
 };
 

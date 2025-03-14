@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { ScaleLoader } from "react-spinners";
 
 const Container = {
-  Container: styled.div`
+  Main: styled.div`
     height: 100%;
     width: 100%;
     flex-grow: 1;
@@ -29,7 +29,7 @@ const ChatArea = () => {
   const groq = useContext(GroqContext);
 
   return (
-    <Container.Container>
+    <Container.Main>
       <Container.Wrapper>
         {groq?.history
           .filter((data) => data.role !== "system")
@@ -42,7 +42,7 @@ const ChatArea = () => {
           )}
         {groq?.isLoading && <ScaleLoader color="rgb(190, 190, 190)" />}
       </Container.Wrapper>
-    </Container.Container>
+    </Container.Main>
   );
 };
 

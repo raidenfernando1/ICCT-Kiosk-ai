@@ -3,7 +3,7 @@ import ChatArea from "./ChatArea";
 import InputBar from "./InputBar";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Main = styled.main`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -12,10 +12,10 @@ const Container = styled.div`
 
 const GroqChat: React.FC = () => {
   return (
-    <Container>
+    <Main>
       <ChatArea />
       <InputBar />
-    </Container>
+    </Main>
   );
 };
 

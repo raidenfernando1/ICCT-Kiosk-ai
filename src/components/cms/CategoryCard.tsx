@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = {
+const Card = {
   Container: styled.button`
     padding: 10px;
     text-align: left;
@@ -14,9 +14,7 @@ const CategoryCard: React.FC<{
   onClick: (groupId: string) => void;
 }> = ({ question, groupId, onClick }) => {
   return (
-    <Container.Container onClick={() => onClick(groupId)}>
-      {question}
-    </Container.Container>
+    <Card.Container onClick={() => onClick(groupId)}>{question}</Card.Container>
   );
 };
 

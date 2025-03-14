@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { fetchGroupData } from "../../hooks/useSupabase";
 import { useState } from "react";
 
-const Container = {
-  Container: styled.div`
+const Popup = {
+  Main: styled.div`
     width: 100%;
     height: 100%;
     display: flex;
@@ -18,24 +18,24 @@ const Container = {
       width: 50%;
     }
   `,
-  LeftContainer: styled.div`
+  Left: styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     padding-top: 30px;
   `,
-  RightContainer: styled.div`
+  Right: styled.div`
     padding-block: 30px;
   `,
 
-  QuestionContainer: styled.ul`
+  Questions: styled.ul`
     overflow-y: auto;
     flex: 1;
     list-style: none;
     margin-top: 30px;
   `,
-  ContentContainer: styled.div`
+  Content: styled.div`
     margin-top: 30px;
     height: 100%;
     display: flex;
@@ -43,7 +43,7 @@ const Container = {
     overflow: hidden;
     padding-right: 10px;
   `,
-  TextAreaWrapper: styled.div`
+  Textarea: styled.div`
     margin-top: 30px;
     flex: 1;
     overflow: hidden;
@@ -79,24 +79,24 @@ const CategoryPopup: React.FC<{ groupId: string | null }> = ({ groupId }) => {
   }, [groupId]);
 
   return (
-    <Container.Container>
-      <Container.LeftContainer>
+    <Popup.Main>
+      <Popup.Left>
         <p>Possible Questions</p>
-        <Container.QuestionContainer>
+        <Popup.Questions>
           {loading ? (
             <p>Loading...</p>
           ) : (
-            questions.map((q, i) => <p key={i}>{q}</p>)
+            questions.map((question, index) => <p key={index}>{question}</p>)
           )}
-        </Container.QuestionContainer>
-      </Container.LeftContainer>
-      <Container.ContentContainer>
+        </Popup.Questions>
+      </Popup.Left>
+      <Popup.Content>
         <p>Contents</p>
-        <Container.TextAreaWrapper>
+        <Popup.Textarea>
           <textarea readOnly value={loading ? "Loading..." : content} />
-        </Container.TextAreaWrapper>
-      </Container.ContentContainer>
-    </Container.Container>
+        </Popup.Textarea>
+      </Popup.Content>
+    </Popup.Main>
   );
 };
 
