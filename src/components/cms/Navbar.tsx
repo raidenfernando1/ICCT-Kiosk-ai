@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const Container = {
-  Container: styled.nav`
+const Navbar = {
+  Main: styled.nav`
     position: absolute;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@ const Container = {
     padding-inline: var(--layout-inline-space);
     display: flex;
   `,
-  NavContainer: styled.ul`
+  Wrapper: styled.ul`
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -33,8 +33,8 @@ const CMSNavbar = () => {
     { name: "ACCOUNT SETTINGS", to: "/admin" },
   ];
   return (
-    <Container.Container>
-      <Container.NavContainer>
+    <Navbar.Main>
+      <Navbar.Wrapper>
         {Navbtns.map((nav) => {
           return (
             <li key={nav.name}>
@@ -42,8 +42,8 @@ const CMSNavbar = () => {
             </li>
           );
         })}
-      </Container.NavContainer>
-    </Container.Container>
+      </Navbar.Wrapper>
+    </Navbar.Main>
   );
 };
 

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import FaqCard from "./FaqCard";
 
-const Container = {
-  Container: styled.div`
+const Faq = {
+  Main: styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -20,7 +20,7 @@ const Container = {
     color: rgb(100, 100, 100);
   `,
 
-  CardContainer: styled.ul`
+  Cards: styled.ul`
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -39,15 +39,13 @@ const Container = {
 
 const FaqSection = () => {
   return (
-    <Container.Container>
-      <Container.Title>Common inquiries</Container.Title>
-      <Container.Subtitle>
-        Use these if the ai is not helpful
-      </Container.Subtitle>
-      <Container.CardContainer>
+    <Faq.Main>
+      <Faq.Title>Common inquiries</Faq.Title>
+      <Faq.Subtitle>Use these if the ai is not helpful</Faq.Subtitle>
+      <Faq.Cards>
         <FaqCard title="How do i get my sog?" />
-      </Container.CardContainer>
-    </Container.Container>
+      </Faq.Cards>
+    </Faq.Main>
   );
 };
 

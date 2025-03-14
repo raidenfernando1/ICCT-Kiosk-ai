@@ -19,13 +19,6 @@
 
   --layout-inline-space: 5%;
   --border-radius: 8px;
-  --box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
-
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
 
   --transition-speed: 0.2s ease-in-out;
 
@@ -50,3 +43,9 @@ html {
   background-color: var(--background-color);
   color: var(--font-color);
 }
+
+/*
+  Responsive Width Triggers
+
+
+*/

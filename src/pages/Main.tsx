@@ -13,7 +13,7 @@ const Container = {
       flex-direction: column;
     }
   `,
-  ChatSection: styled.div`
+  Chat: styled.div`
     width: 60%;
     height: 100%;
 
@@ -22,7 +22,7 @@ const Container = {
       height: 80%;
     }
   `,
-  FaqSection: styled.div`
+  Faq: styled.div`
     width: 40%;
     height: 100%;
 
@@ -48,13 +48,13 @@ const Container = {
 const MainPage = () => {
   return (
     <Container.Main>
-      <Container.ChatSection>
+      <Container.Chat>
         <GroqChat />
-      </Container.ChatSection>
+      </Container.Chat>
       <Container.Divider />
-      <Container.FaqSection>
+      <Container.Faq>
         <FaqSection />
-      </Container.FaqSection>
+      </Container.Faq>
     </Container.Main>
   );
 };

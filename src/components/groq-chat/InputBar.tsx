@@ -3,7 +3,7 @@ import { GroqContext } from "../../context/useGroq";
 import styled from "styled-components";
 import TextareaAutosize from "react-textarea-autosize";
 
-const Container = {
+const Input = {
   Container: styled.form`
     display: flex;
     flex-direction: column;
@@ -13,7 +13,7 @@ const Container = {
     background-color: rgb(20, 20, 20);
     border: 1px solid rgb(55, 55, 55);
   `,
-  InputWrapper: styled.div`
+  Wrapper: styled.div`
     display: flex;
     width: 100%;
 
@@ -32,10 +32,10 @@ const Container = {
       }
     }
   `,
-  CTAwrapper: styled.div`
+  Buttons: styled.div`
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 5px;
 
     > button {
       padding: 5px 10px;
@@ -69,8 +69,8 @@ const InputBar: React.FC = () => {
   };
 
   return (
-    <Container.Container onSubmit={handleSubmit}>
-      <Container.InputWrapper>
+    <Input.Container onSubmit={handleSubmit}>
+      <Input.Wrapper>
         <TextareaAutosize
           placeholder="Ask me anything."
           minRows={1}
@@ -79,8 +79,8 @@ const InputBar: React.FC = () => {
           onChange={handleChange}
           maxLength={300}
         />
-      </Container.InputWrapper>
-      <Container.CTAwrapper>
+      </Input.Wrapper>
+      <Input.Buttons>
         <button
           type="submit"
           disabled={input.length === 0 || input.length > 300}
@@ -88,8 +88,8 @@ const InputBar: React.FC = () => {
           SUBMIT
         </button>
         <p>{input.length}/300</p>
-      </Container.CTAwrapper>
-    </Container.Container>
+      </Input.Buttons>
+    </Input.Container>
   );
 };
 
