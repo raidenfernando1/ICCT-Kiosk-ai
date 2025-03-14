@@ -4,7 +4,6 @@ import { supabaseLogin } from "../hooks/useSupabase";
 import { useAuth } from "../context/useAuth";
 import Navbar from "../components/Navbar";
 import CMSPage from "./CMS";
-import Spider from "../../public/spider.svg?react";
 
 const Container = {
   Main: styled.main`
