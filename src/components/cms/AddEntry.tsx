@@ -1,13 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { insertData } from "../../hooks/useSupabase";
+import { AddBar } from "./ActionBars";
+import { CMSStore } from "../../context/useCMS";
 
 const Container = {
   Main: styled.form`
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
   `,
 
@@ -74,6 +76,11 @@ const Container = {
       border-radius: 5px;
     }
   `,
+  Wrapper: styled.div`
+    height: 100%;
+    display: flex;
+    gap: 30px;
+  `,
 };
 
 const AddEntry = () => {
@@ -81,6 +88,7 @@ const AddEntry = () => {
   const [content, setContent] = useState<string>("");
   const [newQuestion, setNewQuestion] = useState<string>("");
   const [mainIndex, setMainIndex] = useState<number>(0);
+  const { closePopup } = CMSStore();
 
   const addQuestion = () => {
     if (newQuestion.trim()) {
@@ -93,42 +101,46 @@ const AddEntry = () => {
     e.preventDefault();
     if (questions.length === 0 || !content) return;
     await insertData(questions, content, mainIndex);
+    closePopup("addPopup");
   };
 
   return (
     <Container.Main onSubmit={handleSubmit}>
-      <Container.Left>
-        <Container.Input>
-          <input
-            type="text"
-            placeholder="Enter question"
-            value={newQuestion}
-            onChange={(e) => setNewQuestion(e.target.value)}
+      <AddBar insertData={() => handleSubmit} />
+      <Container.Wrapper>
+        <Container.Left>
+          <Container.Input>
+            <input
+              type="text"
+              placeholder="Enter question"
+              value={newQuestion}
+              onChange={(e) => setNewQuestion(e.target.value)}
+            />
+            <button type="button" onClick={addQuestion}>
+              Add Question
+            </button>
+          </Container.Input>
+          <Container.Questions>
+            {questions.map((question, index) => (
+              <Container.Item key={index}>
+                <input
+                  type="radio"
+                  checked={index === mainIndex}
+                  onChange={() => setMainIndex(index)}
+                />
+                <p>{question}</p>
+              </Container.Item>
+            ))}
+          </Container.Questions>
+        </Container.Left>
+        <Container.Right>
+          <textarea
+            placeholder="Enter Content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
-          <button type="button" onClick={addQuestion}>
-            Add Question
-          </button>
-        </Container.Input>
-        <Container.Questions>
-          {questions.map((question, index) => (
-            <Container.Item key={index}>
-              <input
-                type="radio"
-                checked={index === mainIndex}
-                onChange={() => setMainIndex(index)}
-              />
-              <p>{question}</p>
-            </Container.Item>
-          ))}
-        </Container.Questions>
-      </Container.Left>
-      <Container.Right>
-        <textarea
-          placeholder="Enter Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </Container.Right>
+        </Container.Right>
+      </Container.Wrapper>
     </Container.Main>
   );
 };

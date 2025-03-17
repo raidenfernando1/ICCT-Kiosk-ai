@@ -1,32 +1,41 @@
-import React, { createContext, useState, useContext } from "react";
+import { create } from "zustand";
 
-type CMSContext = {
-  isPopup: boolean;
-  setIsPopup: React.Dispatch<React.SetStateAction<boolean>>;
-  insertPopup: boolean;
-  setInsertPopup: React.Dispatch<React.SetStateAction<boolean>>;
-};
+interface CMSState {
+  selectedEntry: string | null;
+  popups: { addPopup: boolean; entryPopup: boolean };
+  openPopup: (name: keyof CMSState["popups"]) => void;
+  closePopup: (name: keyof CMSState["popups"]) => void;
+  togglePopup: (name: keyof CMSState["popups"]) => void;
+  clearSelectedEntry: () => void;
+  setSelectedEntry: (groupId: string) => void;
+}
 
-export const CMSContext = createContext<CMSContext>({
-  isPopup: false,
-  setIsPopup: () => {},
-  insertPopup: false,
-  setInsertPopup: () => {},
-});
+export const CMSStore = create<CMSState>((set) => ({
+  selectedEntry: null,
+  popups: { addPopup: false, entryPopup: false },
 
-export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [isPopup, setIsPopup] = useState(false);
-  const [insertPopup, setInsertPopup] = useState(false);
+  openPopup: (name) =>
+    set((state) => ({
+      popups: { ...state.popups, [name]: true },
+    })),
 
-  return (
-    <CMSContext.Provider
-      value={{ isPopup, setIsPopup, insertPopup, setInsertPopup }}
-    >
-      {children}
-    </CMSContext.Provider>
-  );
-};
+  closePopup: (name) =>
+    set((state) => ({
+      popups: { ...state.popups, [name]: false },
+    })),
 
-export const useCMS = () => useContext(CMSContext);
+  togglePopup: (name) =>
+    set((state) => ({
+      popups: { ...state.popups, [name]: !state.popups[name] },
+    })),
+
+  clearSelectedEntry: () =>
+    set(() => ({
+      selectedEntry: null,
+    })),
+
+  setSelectedEntry: (groupId) =>
+    set(() => ({
+      selectedEntry: groupId,
+    })),
+}));

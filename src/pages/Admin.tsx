@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { supabaseLogin } from "../hooks/useSupabase";
 import { useAuth } from "../context/useAuth";
-import Navbar from "../components/Navbar";
-import CMSPage from "./CMS";
 
 const Container = {
   Main: styled.main`
@@ -99,11 +97,10 @@ const Section = {
   `,
 };
 
+import { Navigate } from "react-router-dom";
+
 const AdminPage: React.FC = () => {
-  const [loginDetails, setLoginDetails] = useState({
-    email: "",
-    password: "",
-  });
+  const [loginDetails, setLoginDetails] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState<string>("");
   const { isAuthenticated, setIsAuthenticated } = useAuth();
 
@@ -113,7 +110,6 @@ const AdminPage: React.FC = () => {
 
     try {
       const loginResult = await supabaseLogin(email, password);
-
       if (loginResult) {
         setIsAuthenticated(true);
         setLoginError("");
@@ -126,24 +122,16 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
-    setLoginDetails({ email: "", password: "" });
-    setLoginError("");
-  };
-
   if (isAuthenticated) {
-    return <CMSPage />;
+    return <Navigate to="/admin/cms" replace />;
   }
 
   return (
     <Container.Main>
-      <Navbar />
       <Container.Top>
         <Login.Container onSubmit={handleSubmit} autoComplete="off">
           <p>ADMIN LOGIN</p>
-
           {loginError && <p style={{ color: "red" }}>{loginError}</p>}
-
           <input
             type="text"
             placeholder="Login"
@@ -154,30 +142,27 @@ const AdminPage: React.FC = () => {
             required
             autoComplete="off"
           />
-
           <input
             type="password"
             placeholder="Enter password"
             value={loginDetails.password}
             onChange={(e) =>
-              setLoginDetails((prev) => ({
-                ...prev,
-                password: e.target.value,
-              }))
+              setLoginDetails((prev) => ({ ...prev, password: e.target.value }))
             }
             required
             autoComplete="off"
           />
-
           <Login.Buttons>
             <button type="submit">Submit</button>
-            <button type="reset" onClick={handleReset}>
+            <button
+              type="reset"
+              onClick={() => setLoginDetails({ email: "", password: "" })}
+            >
               Reset
             </button>
           </Login.Buttons>
         </Login.Container>
       </Container.Top>
-
       <Section.Container>
         <div>
           <p>Unauthorized access is strictly prohibited.</p>

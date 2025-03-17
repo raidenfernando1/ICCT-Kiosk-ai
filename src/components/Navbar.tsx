@@ -1,12 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import React from "react";
-
-const NavItems: { name: string; path: string }[] = [
-  { name: "ARACHNID", path: "/" },
-  { name: "ABOUT", path: "/about" },
-  { name: "ADMIN", path: "/admin" },
-];
 
 const Container = {
   Main: styled.nav`
@@ -18,16 +11,16 @@ const Container = {
     padding-inline: var(--layout-inline-space);
     display: flex;
   `,
-  NavBtn: styled.li`
+
+  Wrapper: styled.div`
+    display: flex;
+    gap: 30px;
+    width: 100%;
+  `,
+
+  Buttons: styled.li<{ $isFirst?: boolean }>`
     list-style: none;
-
-    &:first-child {
-      margin-right: auto;
-    }
-
-    &:nth-child(2) {
-      margin-right: 30px;
-    }
+    ${(props) => props.$isFirst && "margin-right: auto;"}
 
     a {
       font-size: 1rem;
@@ -36,16 +29,22 @@ const Container = {
       text-decoration: none;
     }
   `,
+
+  Search: styled.input`
+    margin-right: auto;
+  `,
 };
 
-const Navbar: React.FC = () => {
+const Navbar = ({ paths }: { paths: { name: string; path: string }[] }) => {
   return (
     <Container.Main>
-      {NavItems.map((item, index) => (
-        <Container.NavBtn key={index}>
-          <Link to={item.path}>{item.name}</Link>
-        </Container.NavBtn>
-      ))}
+      <Container.Wrapper>
+        {paths.map((item, index) => (
+          <Container.Buttons key={index} $isFirst={index === 0}>
+            <Link to={item.path}>{item.name}</Link>
+          </Container.Buttons>
+        ))}
+      </Container.Wrapper>
     </Container.Main>
   );
 };

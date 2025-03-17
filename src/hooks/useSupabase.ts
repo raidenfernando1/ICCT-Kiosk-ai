@@ -13,13 +13,15 @@ export async function insertData(
 ) {
   try {
     const question_vectors = await Promise.all(
-      questions.map(async (q) => ({
-        question: q,
-        vector: await getEmbedding(q),
+      questions.map(async (question) => ({
+        question: question,
+        vector: await getEmbedding(question),
       }))
     );
 
-    const filteredEntries = question_vectors.filter((e) => e.vector !== null);
+    const filteredEntries = question_vectors.filter(
+      (event) => event.vector !== null
+    );
 
     if (filteredEntries.length !== questions.length) {
       console.warn("Some embeddings failed to generate.");

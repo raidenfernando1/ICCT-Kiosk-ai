@@ -1,5 +1,6 @@
 import { GroqProvider } from "../context/useGroq";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -7,6 +8,8 @@ import Navbar from "../components/Navbar";
 import MainPage from "./Main";
 import AdminPage from "./Admin";
 import NotFound from "./404";
+import { useAuth } from "../context/useAuth";
+import CMSPage from "./CMS";
 
 const Container = {
   Main: styled.main`
@@ -58,111 +61,123 @@ const OverlayAnimation = ({ onFinish }: { onFinish: () => void }) => {
         transition: startMove ? { duration: 2, ease: "easeInOut" } : {},
       }}
     >
-      <img src="icct-logo.png" />
+      <img src="icct-logo.png" alt="ICCT Logo" />
     </Overlay.Main>
   );
 };
 
 const pageTransition = {
-  initial: { opacity: 0, translateY: 30, filter: "blur(10px)" },
+  initial: { filter: "blur(10px)" },
   animate: {
-    opacity: 1,
-    translateY: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.4, ease: "easeOut" },
   },
   exit: {
-    opacity: 0,
-    translateY: -30,
     filter: "blur(10px)",
-    transition: { duration: 0.3, ease: "easeIn" },
   },
 };
 
-function AnimatedRoutes() {
+const AnimatedRoutes = () => {
   const location = useLocation();
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated && location.pathname !== "/admin/cms") {
+      setIsAuthenticated(false);
+    }
+  }, [location.pathname, isAuthenticated, setIsAuthenticated]);
 
   return (
-    <>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route
-            path="/"
-            element={
-              <div style={{ overflow: "hidden" }}>
-                <motion.div
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}
-                >
-                  <Container.Main>
-                    <Navbar />
-                    <MainPage />
-                  </Container.Main>
-                </motion.div>
-              </div>
-            }
-          />
-
-          <Route
-            path="/about"
-            element={
-              <div style={{ overflow: "hidden" }}>
-                <motion.div
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}
-                >
-                  <Container.Main>
-                    <Navbar />
-                    {/* About Page */}
-                  </Container.Main>
-                </motion.div>
-              </div>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <div style={{ overflow: "hidden" }}>
-                <motion.div
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}
-                >
-                  <Container.Main>
-                    <AdminPage />
-                  </Container.Main>
-                </motion.div>
-              </div>
-            }
-          />
-          <Route
-            path="/*"
-            element={
-              <div style={{ overflow: "hidden" }}>
-                <motion.div
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}
-                >
-                  <Container.Main>
-                    <Navbar />
-                    <NotFound />
-                  </Container.Main>
-                </motion.div>
-              </div>
-            }
-          />
-        </Routes>
-      </AnimatePresence>
-    </>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
+            <PageWrapper>
+              <Navbar
+                paths={[
+                  { name: "ARACHNID", path: "/" },
+                  { name: "ABOUT", path: "/about" },
+                  { name: "ADMIN", path: "/admin" },
+                ]}
+              />
+              <MainPage />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <PageWrapper>
+              <Navbar
+                paths={[
+                  { name: "ARACHNID", path: "/" },
+                  { name: "ABOUT", path: "/about" },
+                  { name: "ADMIN", path: "/admin" },
+                ]}
+              />
+              {/* About Page Content */}
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <PageWrapper>
+              <Navbar
+                paths={[
+                  { name: "ARACHNID", path: "/" },
+                  { name: "ABOUT", path: "/about" },
+                  { name: "ADMIN", path: "/admin" },
+                ]}
+              />
+              <AdminPage />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/admin/cms"
+          element={
+            <PageWrapper>
+              <Navbar
+                paths={[
+                  { name: "LOGOUT", path: "/" },
+                  { name: "ACCOUNT SETTINGS", path: "settings" },
+                ]}
+              />
+              <CMSPage />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="/*"
+          element={
+            <PageWrapper>
+              <Navbar
+                paths={[
+                  { name: "ARACHNID", path: "/" },
+                  { name: "ABOUT", path: "/about" },
+                  { name: "ADMIN", path: "/admin" },
+                ]}
+              />
+              <NotFound />
+            </PageWrapper>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
   );
-}
+};
+
+const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    variants={pageTransition}
+  >
+    <Container.Main>{children}</Container.Main>
+  </motion.div>
+);
 
 export default function Layout() {
   const [showOverlay, setShowOverlay] = useState(true);

@@ -14,7 +14,7 @@ const Card = {
   `,
 };
 
-const CategoryCard: React.FC<{
+const CardPopup: React.FC<{
   question: string;
   groupId: string;
   onClick: (groupId: string) => void;
@@ -24,4 +24,4 @@ const CategoryCard: React.FC<{
   );
 };
 
-export default CategoryCard;
+export default CardPopup;

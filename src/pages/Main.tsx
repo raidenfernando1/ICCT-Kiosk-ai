@@ -1,5 +1,5 @@
-import GroqChat from "../components/groq-chat/GroqChat";
-import FaqSection from "../components/faq-section/FaqSection";
+import GroqChat from "../components/groq/GroqChat";
+import FaqSection from "../components/faq/FaqSection";
 import styled from "styled-components";
 
 const Container = {

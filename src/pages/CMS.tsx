@@ -1,23 +1,18 @@
 import styled from "styled-components";
-import Navbar from "../components/cms/Navbar";
-import ContentContainer from "../components/cms/ContentContainer";
-import { CMSProvider } from "../context/useCMS";
+import CMSLayout from "../components/cms/Layout";
 
 const Container = {
   Main: styled.main`
-    width: 100;
+    width: 100%;
     height: 100%;
   `,
 };
 
 const CMSPage = () => {
   return (
-    <CMSProvider>
-      <Container.Main>
-        <Navbar />
-        <ContentContainer />
-      </Container.Main>
-    </CMSProvider>
+    <Container.Main>
+      <CMSLayout />
+    </Container.Main>
   );
 };
 
